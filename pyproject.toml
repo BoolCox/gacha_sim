@@ -11,6 +11,7 @@ dependencies = [
     "nonebot-plugin-alconna>=0.61.1",
     "nonebot-plugin-orm[aiosqlite]>=0.8.3",
     "nonebot-plugin-htmlkit>=0.1.0rc5",
+    "nb-cli>=1.7.3",
 ]
 
 [project.optional-dependencies]
