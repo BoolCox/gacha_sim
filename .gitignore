@@ -139,3 +139,19 @@ dmypy.json
 .pytype/
 
 # End of https://www.toptal.com/developers/gitignore/api/python
+/.idea/inspectionProfiles/profiles_settings.xml
+/.idea/.gitignore
+/.idea/.name
+/.idea/copilot.data.migration.ask2agent.xml
+/.idea/copilotDiffState.xml
+/.idea/dataSources.xml
+/.idea/deployment.xml
+/.idea/gacha_sim.iml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/pySourceRootDetection.xml
+/.idea/vcs.xml
+/.vscode/extensions.json
+/data/nonebot_plugin_orm/migrations/e2639b1b97f6_.py
+/gacha_sim.db
+/test.ipynb
