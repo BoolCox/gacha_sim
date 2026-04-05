@@ -25,4 +25,4 @@ async def is_enabled(event: MessageEvent) -> bool:
         return bool(enabled)
 
 
-IS_GROUP_ENABLE = Rule(is_enabled)
+IS_SCENE_ENABLE = Rule(is_enabled)

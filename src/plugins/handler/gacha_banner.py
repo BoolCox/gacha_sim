@@ -10,7 +10,7 @@ from nonebot_plugin_orm import async_scoped_session
 
 from ..dependency.enum_typy import SceneType
 from ..dependency.permission import ADMIN_PERMISSION
-from ..dependency.rule import IS_GROUP_ENABLE
+from ..dependency.rule import IS_SCENE_ENABLE
 from ..dependency.timezone import get_timezone, parse_user_datetime_to_utc, utc_now
 from ..service.gacha_banner import (
     CommitBannerRunParams,
@@ -57,7 +57,7 @@ list_running_banner = on_alconna(
         meta=CommandMeta(compact=True),
         separators="#",
     ),
-    rule=IS_GROUP_ENABLE,
+    rule=IS_SCENE_ENABLE,
     skip_for_unmatch=False,
 )
 
@@ -72,7 +72,7 @@ draw_once = on_alconna(
         ),
         separators="#",
     ),
-    rule=IS_GROUP_ENABLE,
+    rule=IS_SCENE_ENABLE,
     skip_for_unmatch=False,
 )
 

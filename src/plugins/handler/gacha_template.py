@@ -29,7 +29,11 @@ delete_template = on_alconna(
     skip_for_unmatch=False,
     permission=ADMIN_PERMISSION,
 )
-list_template = on_alconna("列出卡池模板", skip_for_unmatch=False, permission=ADMIN_PERMISSION)
+list_template = on_alconna(
+    "列出卡池模板",
+    skip_for_unmatch=False,
+    permission=ADMIN_PERMISSION
+)
 
 
 @create_template.got("rarity", "请输入稀有度及概率定义（格式：稀有度#概率，每行一组）")

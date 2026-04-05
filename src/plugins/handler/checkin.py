@@ -21,7 +21,7 @@ from ..dependency.db_access import (
     set_interest_daily_rate,
 )
 from ..dependency.permission import ADMIN_PERMISSION
-from ..dependency.rule import IS_GROUP_ENABLE
+from ..dependency.rule import IS_SCENE_ENABLE
 from ..dependency.timezone import (
     default_tz_day_window_utc,
     ensure_utc,
@@ -42,7 +42,7 @@ set_checkin_score_cmd = on_alconna(
         Args["score_range", str],
         separators="#",
     ),
-    rule=IS_GROUP_ENABLE,
+    rule=IS_SCENE_ENABLE,
     skip_for_unmatch=False,
     permission=ADMIN_PERMISSION,
 )
@@ -52,7 +52,7 @@ set_interest_rate_cmd = on_alconna(
         Args["rate", float],
         separators="#",
     ),
-    rule=IS_GROUP_ENABLE,
+    rule=IS_SCENE_ENABLE,
     skip_for_unmatch=False,
     permission=ADMIN_PERMISSION,
 )
@@ -82,7 +82,7 @@ deposit_cmd = on_alconna(
         Args["amount", int],
         separators="#",
     ),
-    rule=IS_GROUP_ENABLE,
+    rule=IS_SCENE_ENABLE,
     skip_for_unmatch=False,
 )
 withdraw_cmd = on_alconna(
@@ -91,7 +91,7 @@ withdraw_cmd = on_alconna(
         Args["amount", int],
         separators="#",
     ),
-    rule=IS_GROUP_ENABLE,
+    rule=IS_SCENE_ENABLE,
     skip_for_unmatch=False,
 )
 transfer_score_cmd = on_alconna(
@@ -104,7 +104,7 @@ transfer_score_cmd = on_alconna(
         ),
         separators="#",
     ),
-    rule=IS_GROUP_ENABLE,
+    rule=IS_SCENE_ENABLE,
     skip_for_unmatch=False,
 )
 

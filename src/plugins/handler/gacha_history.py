@@ -4,7 +4,7 @@ from nonebot_plugin_alconna import Match, on_alconna
 from nonebot_plugin_orm import async_scoped_session
 from sqlalchemy import desc, func, select
 
-from ..dependency.rule import IS_GROUP_ENABLE
+from ..dependency.rule import IS_SCENE_ENABLE
 from ..dependency.timezone import ensure_utc, get_timezone
 from ..model.gacha_banner import GachaBannerPool
 from ..model.gacha_drop_record import GachaDropRecord
@@ -18,11 +18,15 @@ history_cmd = on_alconna(
         Args["num?", int],
         separators="#"
     ),
-    rule=IS_GROUP_ENABLE,
+    rule=IS_SCENE_ENABLE,
     skip_for_unmatch=False
 )
 
-stats_cmd = on_alconna("抽卡统计", rule=IS_GROUP_ENABLE, skip_for_unmatch=False)
+stats_cmd = on_alconna(
+    "抽卡统计",
+    rule=IS_SCENE_ENABLE,
+    skip_for_unmatch=False
+)
 
 
 @history_cmd.handle()
