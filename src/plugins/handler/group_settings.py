@@ -4,8 +4,13 @@ from nonebot_plugin_alconna import Match, on_alconna
 from nonebot_plugin_orm import async_scoped_session
 from sqlalchemy import select
 
-from ..dependency.db_access import get_interest_daily_rate, set_private_interaction_enabled
+from ..dependency.db_access import (
+    get_interest_daily_rate,
+    get_private_interaction_enabled,
+    set_private_interaction_enabled,
+)
 from ..dependency.permission import ADMIN_PERMISSION
+from ..dependency.timezone import get_timezone
 from ..model.gacha_template import GachaTemplate
 from ..model.group import Scene
 
@@ -197,11 +202,17 @@ async def show_group_settings_handle(
         return
 
     interest_rate = await get_interest_daily_rate(session)
+    timezone_value = await get_timezone(session)
+    timezone_name = timezone_value.tzname(None) or "UTC+00:00"
+    private_interaction_enabled = await get_private_interaction_enabled(session)
+    private_interaction_status = "开" if private_interaction_enabled else "关"
     template_name = scene.default_template_name or "未设置"
     status = "开启" if scene.enabled else "关闭"
     await show_scene_settings.finish(
         f"群{sid}设置：\n"
         f"功能状态：{status}\n"
         f"默认模板：{template_name}\n"
-        f"当前利率：{interest_rate:g}"
+        f"当前利率：{interest_rate:g}\n"
+        f"默认时区：{timezone_name}\n"
+        f"私聊互动：{private_interaction_status}"
     )
