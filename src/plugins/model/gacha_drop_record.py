@@ -18,6 +18,6 @@ class GachaDropRecord(Model):
     template_id: Mapped[int] = mapped_column(ForeignKey("gacha_template.id"), index=True)
     item_id: Mapped[int] = mapped_column(ForeignKey("gacha_item.id"), index=True)
     scene_type: Mapped[SceneType] = mapped_column(Enum(SceneType))
-    scene_id: Mapped[str] = mapped_column(index=True)
+    scene_id: Mapped[str | None] = mapped_column(index=True, nullable=True)
     draw_index: Mapped[int] = mapped_column(Integer, default=0, comment="同一批次抽卡内的顺序")
     score_cost: Mapped[int] = mapped_column(Integer, default=0, nullable=False, comment="本条掉落对应消耗积分")

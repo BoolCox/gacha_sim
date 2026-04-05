@@ -8,7 +8,6 @@ from ..model.config import Config
 from ..model.group import Scene
 from ..model.user import User
 
-
 SessionLike = async_scoped_session | AsyncSession
 
 DEFAULT_TIMEZONE_KEY = "default_timezone"
@@ -35,8 +34,6 @@ async def get_or_create_scene(session: async_scoped_session, scene_id: str) -> S
         session.add(scene)
         await session.flush()
     return scene
-
-
 
 
 async def get_or_create_user(session: async_scoped_session, qq: str) -> User:

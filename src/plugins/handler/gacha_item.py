@@ -4,8 +4,8 @@ from nonebot_plugin_orm import async_scoped_session
 from sqlalchemy import select
 
 from ..dependency.permission import ADMIN_PERMISSION
-from ..model.gacha_template import GachaTemplate, GachaRarity
 from ..model.gacha_item import GachaItem
+from ..model.gacha_template import GachaTemplate, GachaRarity
 
 add_item = on_alconna(
     Alconna(
@@ -139,5 +139,6 @@ async def list_items_handle(
     if not items:
         await list_items.finish(f"模板「{template_name.result}」暂无卡片")
 
-    lines = "\n".join(f"  [{i.id}] {i.name}（{i.rarity_name}）{f'：{i.description}' if i.description else ''}" for i in items)
+    lines = "\n".join(
+        f"  [{i.id}] {i.name}（{i.rarity_name}）{f'：{i.description}' if i.description else ''}" for i in items)
     await list_items.finish(f"模板「{template_name.result}」卡片列表：\n{lines}")

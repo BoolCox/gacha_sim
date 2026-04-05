@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from arclet.alconna import Arg, Args, Alconna, CommandMeta
-from nonebot.adapters.onebot.v11 import GroupMessageEvent, MessageEvent
+from nonebot.adapters.onebot.v11 import GroupMessageEvent, MessageEvent, PrivateMessageEvent
 from nonebot.internal.params import ArgPlainText
 from nonebot.matcher import Matcher
 from nonebot.typing import T_State
@@ -65,8 +65,9 @@ draw_once = on_alconna(
     Alconna(
         "抽卡",
         Args(
-            Arg("banner_name", str),
-            Arg("draw_mode?", str),
+            Arg("arg1", str),
+            Arg("arg2?", str),
+            Arg("arg3?", str),
             separators="#",
         ),
         separators="#",
@@ -295,49 +296,72 @@ async def commit_banner_run(
     )
 
 
-def _parse_draw_mode(draw_mode: Match[str]) -> int:
-    if not draw_mode.available:
-        return 1
+def _parse_draw_args(
+        arg1: Match[str],
+        arg2: Match[str],
+        arg3: Match[str],
+) -> tuple[str | None, str, int]:
+    first = arg1.result.strip()
+    if not first:
+        raise ValueError("抽卡参数错误：卡池名不能为空")
 
-    mode = draw_mode.result.strip()
-    if mode == "十连":
-        return 10
+    if not arg2.available:
+        return None, first, 1
 
-    raise ValueError(
-        "抽卡参数错误：仅支持不填（单抽）或 十连。"
-        "示例：抽卡#桃花妖up池#十连"
-    )
+    second = arg2.result.strip()
+    if not second:
+        raise ValueError("抽卡参数错误：第二个参数不能为空")
+
+    if not arg3.available:
+        if second == "十连":
+            # 兼容旧语法：抽卡#<卡池名>#十连
+            return None, first, 10
+        # 新语法：抽卡#<模板名>#<卡池名>
+        return first, second, 1
+
+    third = arg3.result.strip()
+    if third != "十连":
+        raise ValueError("抽卡参数错误：第三个参数仅支持 十连")
+
+    # 新语法：抽卡#<模板名>#<卡池名>#十连
+    return first, second, 10
 
 
 @draw_once.handle()
 async def draw_once_handle(
         session: async_scoped_session,
         event: MessageEvent,
-        banner_name: Match[str],
-        draw_mode: Match[str],
+        arg1: Match[str],
+        arg2: Match[str],
+        arg3: Match[str],
 ):
     if isinstance(event, GroupMessageEvent):
         scene_type = SceneType.GROUP
-        scene_id = event.group_id
+        scene_id: str | None = str(event.group_id)
+        user_id = event.get_user_id()
+    elif isinstance(event, PrivateMessageEvent):
+        scene_type = SceneType.PRIVATE
+        scene_id = None
         user_id = event.get_user_id()
     else:
         await draw_once.finish("暂不支持该场景的抽卡")
         return
-    # elif isinstance(event, PrivateMessageEvent):
-    #     scene_type = SceneType.PRIVATE
-    #     scene_id = None
-    #     user_id = event.get_user_id()
 
     try:
-        draw_count = _parse_draw_mode(draw_mode)
+        template_name, banner_name, draw_count = _parse_draw_args(arg1, arg2, arg3)
+        if scene_type == SceneType.PRIVATE and template_name is None:
+            await draw_once.finish("私聊抽卡请使用 抽卡#<模板名>#<卡池名>[#十连]")
+            return
+
         results = await draw_item(
             session=session,
             scene_type=scene_type,
-            scene_id=str(scene_id),
+            scene_id=scene_id,
             user_id=user_id,
-            banner_name=banner_name.result,
+            banner_name=banner_name,
             now=utc_now(),
             draw_count=draw_count,
+            template_name=template_name,
         )
     except ValueError as err:
         text = str(err)

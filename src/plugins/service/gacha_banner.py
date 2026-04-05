@@ -7,8 +7,8 @@ from sqlalchemy import or_, select
 from sqlalchemy.exc import IntegrityError
 
 from ..dependency.db_access import get_draw_score_cost, get_or_create_scene, get_or_create_user
-from ..dependency.timezone import ensure_utc, get_timezone
 from ..dependency.enum_typy import SceneType
+from ..dependency.timezone import ensure_utc, get_timezone
 from ..model.gacha_banner import (
     GachaBannerPool,
     GachaBannerRun,
@@ -203,21 +203,26 @@ async def commit_banner_run(
 async def draw_item(
         session: async_scoped_session,
         scene_type: SceneType,
-        scene_id: str,
+        scene_id: str | None,
         user_id: str,
         banner_name: str,
         now: datetime,
         draw_count: int,
+        template_name: str | None = None,
 ) -> list[DrawResult]:
     now = ensure_utc(now)
-    group = await get_or_create_scene(session, scene_id)
-    if group.default_template_name is None:
-        raise ValueError(f"未设置默认模板，请联系管理员使用 设置默认模板#<模板名> 指令设置启用的模板")
+    resolved_template_name = template_name.strip() if template_name is not None else None
+    if not resolved_template_name:
+        if scene_id is None:
+            raise ValueError("私聊抽卡请使用 抽卡#<模板名>#<卡池名>[#十连]")
+        group = await get_or_create_scene(session, scene_id)
+        if group.default_template_name is None:
+            raise ValueError(f"未设置默认模板，请联系管理员使用 设置默认模板#<模板名> 指令设置启用的模板")
+        resolved_template_name = group.default_template_name
 
-    template_name = group.default_template_name
     template, pool, run = await _resolve_running_run(
         session=session,
-        template_name=template_name,
+        template_name=resolved_template_name,
         banner_name=banner_name,
         now=now,
     )
