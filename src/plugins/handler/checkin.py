@@ -11,7 +11,7 @@ from nonebot_plugin_alconna import Match, on_alconna
 from nonebot_plugin_orm import async_scoped_session
 from sqlalchemy import and_, select
 
-from ..dependency.db_access import (
+from ..dependencies.db_access import (
     get_draw_score_cost,
     get_checkin_score_range,
     get_interest_daily_rate,
@@ -20,9 +20,9 @@ from ..dependency.db_access import (
     set_checkin_score_range,
     set_interest_daily_rate,
 )
-from ..dependency.permission import ADMIN_PERMISSION
-from ..dependency.rule import IS_SCENE_ENABLE
-from ..dependency.timezone import (
+from ..dependencies.permission import ADMIN_PERMISSION
+from ..dependencies.rule import IS_SCENE_ENABLE
+from ..dependencies.timezone import (
     default_tz_day_window_utc,
     ensure_utc,
     get_timezone,

@@ -4,8 +4,8 @@ from nonebot_plugin_alconna import Match, on_alconna
 from nonebot_plugin_orm import async_scoped_session
 from sqlalchemy import desc, func, select
 
-from ..dependency.rule import IS_SCENE_ENABLE
-from ..dependency.timezone import ensure_utc, get_timezone
+from ..dependencies.rule import IS_SCENE_ENABLE
+from ..dependencies.timezone import ensure_utc, get_timezone
 from ..model.gacha_banner import GachaBannerPool
 from ..model.gacha_drop_record import GachaDropRecord
 from ..model.gacha_item import GachaItem

@@ -5,7 +5,7 @@ from nonebot_plugin_orm import async_scoped_session
 from sqlalchemy import select, delete
 from sqlalchemy.exc import IntegrityError
 
-from ..dependency.permission import ADMIN_PERMISSION
+from ..dependencies.permission import ADMIN_PERMISSION
 from ..model.gacha_template import GachaTemplate, GachaRarity
 
 create_template = on_alconna(

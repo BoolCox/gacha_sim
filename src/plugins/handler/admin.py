@@ -4,8 +4,8 @@ from nonebot_plugin_alconna import Match, on_alconna
 from nonebot_plugin_orm import async_scoped_session
 from sqlalchemy import select
 
-from ..dependency.db_access import get_or_create_user
-from ..dependency.permission import ADMIN_PERMISSION, invalidate_admin_cache
+from ..dependencies.db_access import get_or_create_user
+from ..dependencies.permission import ADMIN_PERMISSION, invalidate_admin_cache
 from ..model.user import User
 
 set_admin_cmd = on_alconna(

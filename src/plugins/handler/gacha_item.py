@@ -3,7 +3,7 @@ from nonebot_plugin_alconna import on_alconna, Match
 from nonebot_plugin_orm import async_scoped_session
 from sqlalchemy import select
 
-from ..dependency.permission import ADMIN_PERMISSION
+from ..dependencies.permission import ADMIN_PERMISSION
 from ..model.gacha_item import GachaItem
 from ..model.gacha_template import GachaTemplate, GachaRarity
 

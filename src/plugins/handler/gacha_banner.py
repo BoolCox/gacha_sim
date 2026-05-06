@@ -8,10 +8,10 @@ from nonebot.typing import T_State
 from nonebot_plugin_alconna import Match, on_alconna
 from nonebot_plugin_orm import async_scoped_session
 
-from ..dependency.enum_typy import SceneType
-from ..dependency.permission import ADMIN_PERMISSION
-from ..dependency.rule import IS_SCENE_ENABLE
-from ..dependency.timezone import get_timezone, parse_user_datetime_to_utc, utc_now
+from ..dependencies.enum_typy import SceneType
+from ..dependencies.permission import ADMIN_PERMISSION
+from ..dependencies.rule import IS_SCENE_ENABLE
+from ..dependencies.timezone import get_timezone, parse_user_datetime_to_utc, utc_now
 from ..service.gacha_banner import (
     CommitBannerRunParams,
     assert_pool_not_running_now,

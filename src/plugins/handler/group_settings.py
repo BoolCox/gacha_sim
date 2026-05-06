@@ -4,13 +4,13 @@ from nonebot_plugin_alconna import Match, on_alconna
 from nonebot_plugin_orm import async_scoped_session
 from sqlalchemy import select
 
-from ..dependency.db_access import (
+from ..dependencies.db_access import (
     get_interest_daily_rate,
     get_private_interaction_enabled,
     set_private_interaction_enabled,
 )
-from ..dependency.permission import ADMIN_PERMISSION
-from ..dependency.timezone import get_timezone
+from ..dependencies.permission import ADMIN_PERMISSION
+from ..dependencies.timezone import get_timezone
 from ..model.gacha_template import GachaTemplate
 from ..model.group import Scene
 

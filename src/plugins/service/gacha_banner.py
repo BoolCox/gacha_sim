@@ -6,9 +6,9 @@ from nonebot_plugin_orm import async_scoped_session
 from sqlalchemy import or_, select
 from sqlalchemy.exc import IntegrityError
 
-from ..dependency.db_access import get_draw_score_cost, get_or_create_scene, get_or_create_user
-from ..dependency.enum_typy import SceneType
-from ..dependency.timezone import ensure_utc, get_timezone
+from ..dependencies.db_access import get_draw_score_cost, get_or_create_scene, get_or_create_user
+from ..dependencies.enum_typy import SceneType
+from ..dependencies.timezone import ensure_utc, get_timezone
 from ..model.gacha_banner import (
     GachaBannerPool,
     GachaBannerRun,

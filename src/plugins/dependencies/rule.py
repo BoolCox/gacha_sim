@@ -3,7 +3,7 @@ from nonebot.internal.rule import Rule
 from nonebot_plugin_orm import get_session
 from sqlalchemy import select
 
-from ..dependency.db_access import get_private_interaction_enabled
+from ..dependencies.db_access import get_private_interaction_enabled
 from ..model.group import Scene
 
 

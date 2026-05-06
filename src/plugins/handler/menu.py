@@ -5,7 +5,7 @@ from nonebot.adapters.onebot.v11 import MessageEvent, MessageSegment
 from nonebot_plugin_alconna import on_alconna
 from nonebot_plugin_htmlkit import md_to_pic
 
-from ..dependency.permission import ADMIN_PERMISSION
+from ..dependencies.permission import ADMIN_PERMISSION
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 USER_MENU_PATH = PROJECT_ROOT / "docs" / "README.user.md"
