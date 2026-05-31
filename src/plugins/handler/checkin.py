@@ -297,10 +297,17 @@ async def deposit_handle(
 
     user = await get_or_create_user(session, event.get_user_id())
     wallet = await _get_or_create_wallet(session, user.id)
+    if wallet.score < parsed_amount:
+        await deposit_cmd.finish(f"积分不足，当前积分 {wallet.score}")
+
+    wallet.score -= parsed_amount
     wallet.deposit += parsed_amount
 
     await session.commit()
-    await deposit_cmd.finish(f"存款成功，增加 {parsed_amount}，当前存款 {wallet.deposit}")
+    await deposit_cmd.finish(
+        f"存款成功，转入 {parsed_amount} 积分，"
+        f"当前存款 {wallet.deposit}，当前积分 {wallet.score}"
+    )
 
 
 @withdraw_cmd.handle()
@@ -319,8 +326,12 @@ async def withdraw_handle(
         await withdraw_cmd.finish(f"存款不足，当前存款 {wallet.deposit}")
 
     wallet.deposit -= parsed_amount
+    wallet.score += parsed_amount
     await session.commit()
-    await withdraw_cmd.finish(f"取款成功，减少 {parsed_amount}，当前存款 {wallet.deposit}")
+    await withdraw_cmd.finish(
+        f"取款成功，转出 {parsed_amount} 积分，"
+        f"当前存款 {wallet.deposit}，当前积分 {wallet.score}"
+    )
 
 
 @transfer_score_cmd.handle()
